@@ -1,0 +1,26 @@
+<form [formGroup]="formTask">
+    <p>
+        <mat-form-field class="full-width">
+            <input
+                matInput
+                formControlName="titulo"
+                placeholder="Tarefa"
+                required
+            >
+            <mat-error *ngIf="formTask.get('titulo').hasError('required')">
+              Titulo é <strong>obrigatório</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input
+                matInput
+                formControlName="descricao"
+                placeholder="Descrição"
+                required
+            >
+            <mat-error *ngIf="formTask.get('descricao').hasError('required')">
+              Descrição é <strong>obrigatório</strong>
+            </mat-error>
+        </mat-form-field>
+    </p>
+</form>

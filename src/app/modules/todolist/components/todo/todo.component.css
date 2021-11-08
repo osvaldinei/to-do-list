@@ -1,0 +1,10 @@
+.cardTodo {
+  width: 100%;
+  display: block;
+  border: 1px solid #ccc;
+  position: relative;
+}
+
+.list-todo{
+  margin-top: 8rem;
+}

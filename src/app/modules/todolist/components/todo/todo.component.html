@@ -1,0 +1,24 @@
+<mat-list-item [class.complete]="toDo?.concluido" class="list-todo">
+    <mat-card class="cardTodo">
+        <mat-card-content>
+            <mat-checkbox
+                [checked]="toDo.concluido"
+                (change)="this.completeChange.emit($event)"
+            >
+                <mat-label>
+                    <b>{{toDo?.titulo}}</b>
+                </mat-label>
+                <p>
+                    <mat-label>
+                        <i>{{ toDo?.descricao }}</i>
+                    </mat-label>
+                </p>
+            </mat-checkbox>
+            <div *ngIf="!toDo?.concluido" fxLayout="row" fxLayoutAlign="end">
+              <button mat-button color="primary" (click)="deleteTask.emit($event)">Remover Tarefa</button>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+
+</mat-list-item>

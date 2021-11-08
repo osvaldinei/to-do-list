@@ -1,0 +1,20 @@
+mat-card {
+  margin-top: 20px;
+}
+.cardList{
+  height: 60%;
+  width: 95%;
+  position: relative;
+}
+
+.cardList .mat-card-content{
+  height: 90%;
+  overflow: scroll;
+}
+
+:host >>> .mat-figure{
+  align-items: start !important;
+  display: block;
+  min-height: calc(146vh - 100px);
+  max-height: calc(146vh - 100px);
+}
