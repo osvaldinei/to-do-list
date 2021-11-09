@@ -14,6 +14,7 @@ import { TodoService } from './services/todo.service';
 })
 export class TodolistComponent implements OnInit {
 
+  breakpoint: Number;
   tasks: Task[];
   private _task: Partial<Task>;
 
@@ -27,6 +28,8 @@ export class TodolistComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.breakpoint = (window.innerWidth <= 768) ? 1 : 3;
+
     this.spinner.show();
     this.todoService.findAll().subscribe(response => {
       this.tasks = response;
@@ -41,6 +44,10 @@ export class TodolistComponent implements OnInit {
       console.log(error);
     })
 
+  }
+
+  onResize(event) {
+    this.breakpoint = (event.target.innerWidth <= 768) ? 1 : 3;
   }
 
   findCompleteToDo(list: Task[]) : Task[]{

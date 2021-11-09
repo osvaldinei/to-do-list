@@ -1,7 +1,6 @@
 <ngx-spinner></ngx-spinner>
 
-
-  <mat-grid-list cols="3">
+  <mat-grid-list [cols]="breakpoint" (window:resize)="onResize($event)">
     <mat-grid-tile
     [colspan]="1"
     [rowspan]="1"
@@ -33,7 +32,7 @@
             </ng-container>
             <ng-template #allDone>
               <div fxLayout="row" fxLayoutAlign="center center">
-                <h4>Todas as tarefas concluídas!! 🏖</h4>
+                <h4>Nenhuma Tarefa Pendente</h4>
               </div>
             </ng-template>
         </mat-card-content>
@@ -56,10 +55,3 @@
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>
-
-
-
-
-
-
-
