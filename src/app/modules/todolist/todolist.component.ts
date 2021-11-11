@@ -20,6 +20,7 @@ export class TodolistComponent implements OnInit {
 
   completeToDos: Task[] = [];
   incompleteToDos: Task[] = [];
+  formValid: boolean;
 
   constructor(
     private todoService: TodoService,
@@ -31,13 +32,14 @@ export class TodolistComponent implements OnInit {
     this.breakpoint = (window.innerWidth <= 768) ? 1 : 3;
 
     this.spinner.show();
+    this.formValid = false;
     this.todoService.findAll().subscribe(response => {
       this.tasks = response;
       this.completeToDos = this.findCompleteToDo(this.tasks);
       this.incompleteToDos = this.findInCompleteToDo(this.tasks),
-      setTimeout(() => {
-        this.spinner.hide();
-      }, 1000);
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 1000);
     }, error => {
       this.spinner.hide();
       this.messageError('Ocorreu um erro ao tentar carregar as informações. Caso o erro persista, contate o administrador!');
@@ -50,13 +52,13 @@ export class TodolistComponent implements OnInit {
     this.breakpoint = (event.target.innerWidth <= 768) ? 1 : 3;
   }
 
-  findCompleteToDo(list: Task[]) : Task[]{
+  findCompleteToDo(list: Task[]): Task[] {
     return list.filter(
       t => t.concluido
     );
   }
 
-  findInCompleteToDo(list: Task[]) : Task[]{
+  findInCompleteToDo(list: Task[]): Task[] {
     return list.filter(
       t => !t.concluido
     );
@@ -66,23 +68,31 @@ export class TodolistComponent implements OnInit {
     this._task = t;
   }
 
+  onFormValidation(v: any) {
+    this.formValid = v.validation;
+  }
+
   createTodo() {
     this.spinner.show();
     const t: Task = {
-        id: null,
-        titulo: this._task.titulo,
-        descricao: this._task.descricao,
-        concluido: false
-      }
+      id: null,
+      titulo: this._task.titulo,
+      descricao: this._task.descricao,
+      concluido: false
+    }
 
+    if (t.descricao === '' || t.descricao === undefined || t.titulo === '' || t.titulo === undefined) {
+      this.messageError('Algumas informações estão ausentes, por favor verifique!')
+    } else{
       this.todoService.createTask(t).subscribe(response => {
         console.log(response);
         this.reloadPage();
       }, error => {
-         this.spinner.hide();
-         this.messageError('Ocorreu um erro ao tentar salvar. Caso o erro persista, contate o administrador!');
+        this.spinner.hide();
+        this.messageError('Ocorreu um erro ao tentar salvar. Caso o erro persista, contate o administrador!');
         console.log(error);
       });
+    }
   }
 
   onCompleteToDo(t: Task) {
@@ -103,24 +113,24 @@ export class TodolistComponent implements OnInit {
     this.todoService.changeTask(t).subscribe(response => {
       this.reloadPage();
     }, error => {
-     this.spinner.hide();
-     this.messageError('Ocorreu um erro ao tentar salvar. Caso o erro persista, contate o administrador!');
+      this.spinner.hide();
+      this.messageError('Ocorreu um erro ao tentar salvar. Caso o erro persista, contate o administrador!');
       console.log(error);
     });
   }
 
-  onDeleteTask(t: Task){
+  onDeleteTask(t: Task) {
     this.spinner.show();
     this.todoService.deleteTask(t).subscribe(response => {
       this.messageSucess('Tarefa Removida Com Sucesso!')
     }, error => {
-     this.spinner.hide();
-     this.messageError('Ocorreu um erro ao tentar deletar. Caso o erro persista, contate o administrador!');
+      this.spinner.hide();
+      this.messageError('Ocorreu um erro ao tentar deletar. Caso o erro persista, contate o administrador!');
       console.log(error);
     });
   }
 
-  messageError(message: any){
+  messageError(message: any) {
     Swal({
       title: 'Oops...',
       text: message,
@@ -128,7 +138,7 @@ export class TodolistComponent implements OnInit {
     });
   }
 
-  messageSucess(message: any){
+  messageSucess(message: any) {
     Swal({
       title: 'Sucesso',
       text: message,
